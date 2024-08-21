@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course List</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Hind Siliguri', Arial, sans-serif;
+            background-color: white; /* Body color */
+        }
+
+        header {
+            background-color: skyblue; /* Header color */
+            text-align: center;
+            padding: 20px;
+            font-family: 'Hind Siliguri', Arial, sans-serif;
+        }
+
+        h1 {
+            margin: 0;
+            color: #333;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .course-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .course {
+            display: block;
+            background-color: skyblue; /* Course option color */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 200px;
+            padding: 10px;
+            text-decoration: none; /* Remove underline */
+            color: inherit; /* Inherit text color */
+            font-family: 'Hind Siliguri', Arial, sans-serif;
+        }
+
+        .course img {
+            width: 100%;
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 8px;
+        }
+
+        .course h2 {
+            margin: 10px 0 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .course:hover {
+            background-color: #e0e0e0; /* Light grey background on hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Course List</h1>
+    </header>
+    <main>
+        <section class="course-list">
+            <a href="course1.html" class="course">
+                <img src="course1.jpg" alt="Course 1">
+                <h2>Course Name 1</h2>
+            </a>
+            <a href="course2.html" class="course">
+                <img src="course2.jpg" alt="Course 2">
+                <h2>Course Name 2</h2>
+            </a>
+            <a href="course3.html" class="course">
+                <img src="course3.jpg" alt="Course 3">
+                <h2>Course Name 3</h2>
+            </a>
+            <!-- Add more courses as needed -->
+        </section>
+    </main>
+</body>
+</html>
