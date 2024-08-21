@@ -65,6 +65,53 @@
         .course:hover {
             background-color: #e0e0e0; /* Light grey background on hover */
         }
+
+        
+        /* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #87ceeb; /* Sky blue background */
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #ddd; /* Light grey border on top */
+}
+
+.contact-link {
+    color: #000; /* Black text color */
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-link:hover {
+    color: #0056b3; /* Darker shade of blue on hover */
+}
+
+.telegram-icon {
+    width: 24px; /* Size of the Telegram icon */
+    height: 24px; /* Size of the Telegram icon */
+    margin-right: 8px; /* Space between icon and text */
+}
     </style>
 <body>
     <header>
@@ -87,5 +134,11 @@
             <!-- Add more courses as needed -->
         </section>
     </main>
+    <footer class="footer">
+        <a href="https://t.me/YourTelegramChannel" target="_blank" class="contact-link">
+            <img src="https://i.postimg.cc/xCZJwHZK/Telegram-2019-Logo-svg.png" alt="Telegram Icon" class="telegram-icon">
+            আমাদের সাথে যোগাযোগ ও অভিযোগ করুন
+        </a>
+    </footer>
 </body>
 </html>
