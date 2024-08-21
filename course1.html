@@ -6,7 +6,7 @@
     <title>Video Player with Class List</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
-        
+
         /* Basic Reset */
         * {
             margin: 0;
@@ -33,18 +33,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative; /* Required for positioning child elements */
         }
 
-        /* Video Player Container */
         .video-container {
             width: 100%;
             position: relative;
             padding-top: 56.25%; /* 16:9 aspect ratio */
             margin-bottom: 20px;
             background-color: #000;
+            border-radius: 10px;
+            border: 5px solid #87ceeb; /* Sky blue border */
+            overflow: hidden; /* Ensures rounded corners and border visibility */
         }
 
-        /* Video Player */
         #videoPlayer {
             position: absolute;
             top: 0;
@@ -52,10 +54,45 @@
             width: 100%;
             height: 100%;
             border-radius: 10px;
-            pointer-events: none; /* Block interaction with the video player */
         }
 
-        /* Scrollable Class List */
+        .touch-blocker {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%; /* Covers right half of the player */
+            height: 100%;
+            z-index: 10; /* Ensures it's on top of the player */
+        }
+
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .controls button, .controls select {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #87ceeb; /* Sky blue background */
+            color: #fff; /* Text color */
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .controls button:hover, .controls select:hover {
+            background-color: #70b9e2; /* Slightly darker sky blue on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+
+        .controls select {
+            width: 80px;
+        }
+
         .class-list {
             width: 100%;
             max-height: 150px;
@@ -79,39 +116,12 @@
             cursor: pointer;
             color: #000; /* Text color */
             font-weight: bold; /* Bold text */
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .class-item:hover {
             background-color: #70b9e2; /* Slightly darker sky blue on hover */
-        }
-
-        /* Controls */
-        .controls {
-            margin: 20px 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .controls button, .controls select {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 5px;
-            background-color: #87ceeb; /* Sky blue background */
-            color: #fff; /* Text color */
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .controls button:hover, .controls select:hover {
-            background-color: #70b9e2; /* Slightly darker sky blue on hover */
-        }
-
-        .controls select {
-            width: 80px;
+            transform: translateY(-2px); /* Subtle lift effect */
         }
     </style>
 </head>
@@ -125,6 +135,8 @@
                 frameborder="0" 
                 allowfullscreen>
         </iframe>
+        <!-- Touch blocker on the right side -->
+        <div class="touch-blocker"></div>
     </div>
 
     <!-- Controls -->
@@ -148,8 +160,8 @@
 
     <!-- Scrollable Class List Section -->
     <div class="class-list">
-        <h3>ক্লাস দেখতে ক্লিক করো</h3>
-        <div class="class-item" onclick="playSpecificVideo('FimIFIGkGAU')">জার্মানী জৈব যৌগ পর্ব ১</div>
+        <h3>Class List</h3>
+        <div class="class-item" onclick="playSpecificVideo('FimIFIGkGAU')">Class 1: Video 1</div>
         <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_2')">Class 2: Video 2</div>
         <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_3')">Class 3: Video 3</div>
         <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_4')">Class 4: Video 4</div>
@@ -160,7 +172,7 @@
 
 <script>
     var player;
-    
+
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('videoPlayer', {
             events: {
@@ -174,25 +186,50 @@
     }
 
     function playVideo() {
-        player.playVideo();
+        if (player) {
+            player.playVideo();
+            console.log("Video played.");
+        } else {
+            console.log("Player not initialized.");
+        }
     }
 
     function pauseVideo() {
-        player.pauseVideo();
+        if (player) {
+            player.pauseVideo();
+            console.log("Video paused.");
+        } else {
+            console.log("Player not initialized.");
+        }
     }
 
     function seek(seconds) {
-        var currentTime = player.getCurrentTime();
-        player.seekTo(currentTime + seconds);
+        if (player) {
+            var currentTime = player.getCurrentTime();
+            player.seekTo(currentTime + seconds);
+            console.log("Seeked to " + (currentTime + seconds) + " seconds.");
+        } else {
+            console.log("Player not initialized.");
+        }
     }
 
     function changeSpeed(speed) {
-        player.setPlaybackRate(parseFloat(speed));
+        if (player) {
+            player.setPlaybackRate(parseFloat(speed));
+            console.log("Playback speed changed to " + speed + "x.");
+        } else {
+            console.log("Player not initialized.");
+        }
     }
 
     function playSpecificVideo(videoId) {
-        player.loadVideoById(videoId);
-        player.playVideo();  // Start playing the video immediately
+        if (player) {
+            player.loadVideoById(videoId);
+            player.playVideo(); // Start playing immediately after loading
+            console.log("Video loaded and played: " + videoId);
+        } else {
+            console.log("Player not initialized.");
+        }
     }
 
     // Load the IFrame Player API code asynchronously
