@@ -37,10 +37,10 @@
         }
 
         .course-list {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns */
             gap: 20px;
-            justify-content: center;
+            justify-items: center; /* Center the items within their grid cell */
         }
 
         .course {
@@ -55,12 +55,6 @@
             color: inherit; /* Inherit text color */
             font-family: 'Hind Siliguri', Arial, sans-serif;
             transition: background-color 0.3s; /* Smooth transition for hover effect */
-        }
-
-        @media (min-width: 768px) {
-            .course {
-                width: 45%; /* Adjust the width to fit 2 cards per row on larger screens */
-            }
         }
 
         .course img {
