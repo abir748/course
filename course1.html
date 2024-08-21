@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Player with Class List</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+        
         /* Basic Reset */
         * {
             margin: 0;
@@ -13,7 +15,7 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Hind Siliguri', Arial, sans-serif;
             background-color: #f4f4f4;
             display: flex;
             align-items: center;
@@ -72,14 +74,16 @@
         .class-item {
             padding: 10px;
             margin-bottom: 10px;
-            background-color: #e0e0e0;
+            background-color: #87ceeb; /* Sky blue background */
             border-radius: 5px;
             cursor: pointer;
+            color: #000; /* Text color */
+            font-weight: bold; /* Bold text */
             transition: background-color 0.3s ease;
         }
 
         .class-item:hover {
-            background-color: #d1d1d1;
+            background-color: #70b9e2; /* Slightly darker sky blue on hover */
         }
 
         /* Controls */
@@ -95,15 +99,15 @@
             padding: 8px 12px;
             border: none;
             border-radius: 5px;
-            background-color: #007bff;
-            color: #fff;
+            background-color: #87ceeb; /* Sky blue background */
+            color: #fff; /* Text color */
             cursor: pointer;
             font-size: 14px;
             transition: background-color 0.3s ease;
         }
 
         .controls button:hover, .controls select:hover {
-            background-color: #0056b3;
+            background-color: #70b9e2; /* Slightly darker sky blue on hover */
         }
 
         .controls select {
@@ -144,8 +148,8 @@
 
     <!-- Scrollable Class List Section -->
     <div class="class-list">
-        <h3>Class List</h3>
-        <div class="class-item" onclick="playSpecificVideo('FimIFIGkGAU')">জার্মানি</div>
+        <h3>ক্লাস দেখতে ক্লিক করো</h3>
+        <div class="class-item" onclick="playSpecificVideo('FimIFIGkGAU')">জার্মানী জৈব যৌগ পর্ব ১</div>
         <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_2')">Class 2: Video 2</div>
         <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_3')">Class 3: Video 3</div>
         <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_4')">Class 4: Video 4</div>
