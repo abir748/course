@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course List</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap">
-</head>
     <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -66,56 +72,42 @@
             background-color: #e0e0e0; /* Light grey background on hover */
         }
 
-       
-        
-{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        /* Footer Styling */
+        .footer {
+            background-color: #87ceeb; /* Sky blue background */
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid #ddd; /* Light grey border on top */
+            font-family: 'Hind Siliguri', Arial, sans-serif;
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-}
+        .contact-link {
+            color: #000; /* Black text color */
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-/* Footer Styling */
-.footer {
-    background-color: #87ceeb; /* Sky blue background */
-    padding: 20px;
-    text-align: center;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    border-top: 1px solid #ddd; /* Light grey border on top */
-}
+        .contact-link:hover {
+            color: #0056b3; /* Darker shade of blue on hover */
+        }
 
-.contact-link {
-    color: #000; /* Black text color */
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.contact-link:hover {
-    color: #0056b3; /* Darker shade of blue on hover */
-}
-
-.telegram-icon {
-    width: 24px; /* Size of the Telegram icon */
-    height: 24px; /* Size of the Telegram icon */
-    margin-right: 8px; /* Space between icon and text */
-}
+        .telegram-icon {
+            width: 24px; /* Size of the Telegram icon */
+            height: 24px; /* Size of the Telegram icon */
+            margin-right: 8px; /* Space between icon and text */
+        }
     </style>
+</head>
 <body>
     <header>
-        <h1> সকল ফ্রি কোর্স</h1>
+        <h1>সকল ফ্রি কোর্স</h1>
     </header>
     <main>
         <section class="course-list">
