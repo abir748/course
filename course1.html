@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Player with Class List</title>
+    <title>Video Player with Class List</title>
     <style>
         /* Basic Reset */
         * {
@@ -50,6 +50,7 @@
             width: 100%;
             height: 100%;
             border-radius: 10px;
+            pointer-events: none; /* Block interaction with the video player */
         }
 
         /* Scrollable Class List */
@@ -80,6 +81,34 @@
         .class-item:hover {
             background-color: #d1d1d1;
         }
+
+        /* Controls */
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .controls button, .controls select {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .controls button:hover, .controls select:hover {
+            background-color: #0056b3;
+        }
+
+        .controls select {
+            width: 80px;
+        }
     </style>
 </head>
 <body>
@@ -88,29 +117,84 @@
     <!-- Video Player Section -->
     <div class="video-container">
         <iframe id="videoPlayer" 
+                src="https://www.youtube.com/embed/?enablejsapi=1" 
                 frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowfullscreen>
         </iframe>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <button onclick="playVideo()">Play</button>
+        <button onclick="pauseVideo()">Pause</button>
+        <button onclick="seek(-5)">Rewind 5s</button>
+        <button onclick="seek(5)">Forward 5s</button>
+        
+        <div class="speed-control">
+            <label for="speed" style="display: none;">Speed:</label>
+            <select id="speed" onchange="changeSpeed(this.value)">
+                <option value="0.25">0.25x</option>
+                <option value="0.5">0.5x</option>
+                <option value="1" selected>1x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+            </select>
+        </div>
     </div>
 
     <!-- Scrollable Class List Section -->
     <div class="class-list">
         <h3>Class List</h3>
-        <div class="class-item" onclick="playVideo('FimIFIGkGAU')">Class 1: Video 1</div>
-        <div class="class-item" onclick="playVideo('VIDEO_ID_2')">Class 2: Video 2</div>
-        <div class="class-item" onclick="playVideo('VIDEO_ID_3')">Class 3: Video 3</div>
-        <div class="class-item" onclick="playVideo('VIDEO_ID_4')">Class 4: Video 4</div>
-        <div class="class-item" onclick="playVideo('VIDEO_ID_5')">Class 5: Video 5</div>
+        <div class="class-item" onclick="playSpecificVideo('FimIFIGkGAU')">Class 1: Video 1</div>
+        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_2')">Class 2: Video 2</div>
+        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_3')">Class 3: Video 3</div>
+        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_4')">Class 4: Video 4</div>
+        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_5')">Class 5: Video 5</div>
         <!-- Add more classes as needed -->
     </div>
 </div>
 
 <script>
-    function playVideo(videoId) {
-        var videoPlayer = document.getElementById('videoPlayer');
-        videoPlayer.src = "https://www.youtube.com/embed/" + videoId;
+    var player;
+    
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('videoPlayer', {
+            events: {
+                'onReady': onPlayerReady
+            }
+        });
     }
+
+    function onPlayerReady(event) {
+        console.log("Player is ready.");
+    }
+
+    function playVideo() {
+        player.playVideo();
+    }
+
+    function pauseVideo() {
+        player.pauseVideo();
+    }
+
+    function seek(seconds) {
+        var currentTime = player.getCurrentTime();
+        player.seekTo(currentTime + seconds);
+    }
+
+    function changeSpeed(speed) {
+        player.setPlaybackRate(parseFloat(speed));
+    }
+
+    function playSpecificVideo(videoId) {
+        player.loadVideoById(videoId);
+    }
+
+    // Load the IFrame Player API code asynchronously
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 </script>
 
 </body>
