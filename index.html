@@ -37,10 +37,10 @@
         }
 
         .course-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Two columns */
+            display: flex;
+            flex-wrap: wrap;
             gap: 20px;
-            justify-items: center; /* Center the items within their grid cell */
+            justify-content: center;
         }
 
         .course {
@@ -49,12 +49,11 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-            width: 240px; /* Increased width */
-            padding: 20px; /* Increased padding */
+            width: 200px;
+            padding: 10px;
             text-decoration: none; /* Remove underline */
             color: inherit; /* Inherit text color */
             font-family: 'Hind Siliguri', Arial, sans-serif;
-            transition: background-color 0.3s; /* Smooth transition for hover effect */
         }
 
         .course img {
@@ -65,7 +64,7 @@
 
         .course h2 {
             margin: 10px 0 0;
-            font-size: 18px; /* Increased font size */
+            font-size: 16px;
             color: #333;
         }
 
