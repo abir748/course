@@ -21,10 +21,11 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            overflow: hidden; /* Prevent body scroll */
         }
 
         .container {
-            width: 80%;
+            width: 100%;
             max-width: 1280px;
             background-color: #fff;
             padding: 20px;
@@ -40,7 +41,6 @@
             width: 100%;
             position: relative;
             padding-top: 56.25%; /* 16:9 aspect ratio */
-            margin-bottom: 20px;
             background-color: #000;
             border-radius: 10px;
             border: 5px solid #87ceeb; /* Sky blue border */
@@ -59,10 +59,12 @@
         .touch-blocker {
             position: absolute;
             top: 0;
-            right: 0;
-            width: 50%; /* Covers right half of the player */
+            left: 50%; /* Start from the middle */
+            width: 50%; /* Covers the right half of the player */
             height: 100%;
-            z-index: 10; /* Ensures it's on top of the player */
+            background: rgba(0, 0, 0, 0); /* Transparent background */
+            z-index: 10; /* Ensure it is above the player */
+            pointer-events: auto; /* Ensure it blocks touch events */
         }
 
         .controls {
@@ -135,7 +137,7 @@
                 frameborder="0" 
                 allowfullscreen>
         </iframe>
-        <!-- Touch blocker on the right side -->
+        <!-- Transparent touch blocker from the middle to the right side -->
         <div class="touch-blocker"></div>
     </div>
 
