@@ -145,7 +145,7 @@
     <!-- Scrollable Class List Section -->
     <div class="class-list">
         <h3>Class List</h3>
-        <div class="class-item" onclick="playSpecificVideo('FimIFIGkGAU')">Class 1: Video 1</div>
+        <div class="class-item" onclick="playSpecificVideo('FimIFIGkGAU')">জার্মানি</div>
         <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_2')">Class 2: Video 2</div>
         <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_3')">Class 3: Video 3</div>
         <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_4')">Class 4: Video 4</div>
@@ -188,6 +188,7 @@
 
     function playSpecificVideo(videoId) {
         player.loadVideoById(videoId);
+        player.playVideo();  // Start playing the video immediately
     }
 
     // Load the IFrame Player API code asynchronously
