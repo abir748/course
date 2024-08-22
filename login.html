@@ -60,7 +60,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease;
-										font-family: 'Hind Siliguri', sans-serif; */Apply font-family here */
+										font-family: 'Hind Siliguri', sans-serif;
         }
 
         input[type="submit"]:hover {
@@ -111,8 +111,8 @@
             const users = await loadUsers();
 
             if (validateUser(username, password, users)) {
-                document.cookie = "loggedIn=true; path=/"; // Set cookie to indicate logged in
-                window.location.href = 'main.html'; // Redirect to main.html on successful login
+                document.cookie = "loggedIn=true; path=/"; // Set cookie to indicate login
+                window.location.href = 'index.html'; // Redirect to index.html on successful login
             } else {
                 document.getElementById('errorMessage').innerText = 'সঠিক ইউজার ও পাসওয়ার্ড দিন';
             }
