@@ -22,14 +22,12 @@
             border-radius: 10px;
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
             width: 300px;
-            font-family: 'Hind Siliguri', sans-serif;
         }
 
         h2 {
             text-align: center;
             margin-bottom: 20px;
             font-weight: 600;
-            font-family: 'Hind Siliguri', sans-serif;
         }
 
         .form-group {
@@ -50,7 +48,6 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
-            font-family: 'Hind Siliguri', sans-serif;
         }
 
         input[type="submit"] {
@@ -63,7 +60,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            font-family: 'Hind Siliguri', sans-serif;
         }
 
         input[type="submit"]:hover {
@@ -75,7 +71,6 @@
             font-size: 14px;
             text-align: center;
             margin-top: 10px;
-            font-family: 'Hind Siliguri', sans-serif;
         }
     </style>
 </head>
@@ -115,6 +110,7 @@
             const users = await loadUsers();
 
             if (validateUser(username, password, users)) {
+                document.cookie = "loggedIn=true; path=/"; // Set cookie to indicate logged in
                 window.location.href = 'main.html'; // Redirect to main.html on successful login
             } else {
                 document.getElementById('errorMessage').innerText = 'সঠিক ইউজার ও পাসওয়ার্ড দিন';
