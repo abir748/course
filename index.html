@@ -4,9 +4,142 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>সকলের জন্য ফ্রি কোর্স</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap">
     <style>
-        color: #000; /* Black text color */
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Hind Siliguri', Arial, sans-serif; /* Apply Hind Siliguri font */
+            background-color: white; /* Body color */
+        }
+
+        header {
+            background-color: skyblue; /* Header color */
+            text-align: center;
+            padding: 20px;
+            font-family: 'Hind Siliguri', Arial, sans-serif; /* Apply Hind Siliguri font */
+            position: relative; /* Make sure the dropdown is positioned relative to the header */
+        }
+
+        h1 {
+            margin: 0;
+            color: #333;
+        }
+
+        .dropdown {
+            position: absolute;
+            right: 20px; /* Position dropdown on the right side */
+            top: 20px; /* Align with header padding */
+            z-index: 1; /* Ensure dropdown is on top */
+        }
+
+        .dropdown button {
+            background-color: skyblue; /* Sky blue background for the button */
+            color: black; /* Black text color */
+            border: 2px solid white; /* White border for the button */
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: 'Hind Siliguri', Arial, sans-serif; /* Apply Hind Siliguri font */
+        }
+
+        .dropdown button:hover {
+            background-color: #87ceeb; /* Lighter blue on hover */
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0; /* Align with right edge of the button */
+            top: 100%; /* Below the button */
+            background-color: #f0f8ff; /* Light Alice Blue background for the dropdown */
+            min-width: 160px;
+            border-radius: 5px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border: 1px solid white; /* White border for the dropdown */
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            font-family: 'Hind Siliguri', Arial, sans-serif; /* Apply Hind Siliguri font */
+        }
+
+        .dropdown-content a:hover {
+            background-color: #87ceeb; /* Lighter blue on hover */
+        }
+
+        /* Dropdown visibility toggle */
+        .dropdown-content.show {
+            display: block;
+        }
+
+        main {
+            padding: 20px; /* Add padding to keep content away from edges */
+        }
+
+        .course-list {
+            display: block; /* Stack items vertically */
+        }
+
+        .course {
+            display: block;
+            background-color: skyblue; /* Course option color */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%; /* Full width of its container */
+            max-width: 600px; /* Max width to avoid excessive stretch */
+            margin: 0 auto 20px; /* Center horizontally and add space below */
+            padding: 10px;
+            text-decoration: none; /* Remove underline */
+            color: inherit; /* Inherit text color */
+            font-family: 'Hind Siliguri', Arial, sans-serif; /* Apply Hind Siliguri font */
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+
+        .course img {
+            width: 100%;
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 8px;
+        }
+
+        .course h1 {
+            margin: 10px 0 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .course:hover {
+            background-color: #e0e0e0; /* Light grey background on hover */
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: #87ceeb; /* Sky blue background */
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid #ddd; /* Light grey border on top */
+            font-family: 'Hind Siliguri', Arial, sans-serif; /* Apply Hind Siliguri font */
+        }
+
+        .contact-link {
+            color: #000; /* Black text color */
             text-decoration: none;
             font-size: 16px;
             font-weight: bold;
@@ -24,7 +157,7 @@
             height: 24px; /* Size of the Telegram icon */
             margin-right: 8px; /* Space between icon and text */
         }
-</style>
+    </style>
 </head>
 <body>
     <header>
@@ -35,7 +168,6 @@
                 <a href="#">একাডেমিক</a>
                 <a href="#">মেডিকেল</a>
                 <a href="#">ভার্সিটি+ ইঞ্জিনিয়ারিং</a>
-                <!-- Add more options as needed -->
             </div>
         </div>
     </header>
@@ -53,7 +185,6 @@
                 <img src="https://i.postimg.cc/T3nshJq3/Medical-final.png" alt="Course 3">
                 <h1>ACS মেডিকেল</h1>
             </a>
-            <!-- Add more courses as needed -->
         </section>
     </main>
     <footer class="footer">
@@ -64,20 +195,6 @@
     </footer>
 
     <script>
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-        }
-
-        function checkLogin() {
-            if (getCookie('loggedIn') !== 'true') {
-                window.location.href = 'login.html'; // Redirect to login page if not logged in
-            }
-        }
-
-        checkLogin(); // Check login status when page loads
-
         function toggleDropdown() {
             var dropdown = document.getElementById("myDropdown");
             if (dropdown.classList.contains("show")) {
@@ -87,7 +204,6 @@
             }
         }
 
-        // Close the dropdown if the user clicks outside of it
         window.onclick = function(event) {
             if (!event.target.matches('.dropdown button')) {
                 var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -99,6 +215,16 @@
                 }
             }
         }
+
+        function checkLogin() {
+            const cookies = document.cookie.split(';');
+            const loggedInCookie = cookies.find(cookie => cookie.trim().startsWith('loggedIn='));
+            if (!loggedInCookie || loggedInCookie.split('=')[1] !== 'true') {
+                window.location.href = 'login.html'; // Redirect to login page if not logged in
+            }
+        }
+
+        checkLogin(); // Call the function to check login status on page load
     </script>
 </body>
 </html>
