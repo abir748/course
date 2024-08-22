@@ -1,3 +1,27 @@
+<?php
+session_start();
+$error = '';
+
+// লগিন ফর্ম সাবমিশন হলে কোড চলবে
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // ব্যবহারকারীর ইনপুট নেওয়া
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    // সঠিক ইউজারনেম এবং পাসওয়ার্ড চেক করুন
+    // (এটি সাধারণত একটি ডাটাবেসের মাধ্যমে করা উচিত, তবে এখানে উদাহরণস্বরূপ স্ট্যাটিক ইউজারনেম এবং পাসওয়ার্ড ব্যবহার করা হয়েছে)
+    $valid_user = 'admin';
+    $valid_password = 'password';
+
+    if ($username === $valid_user && $password === $valid_password) {
+        // লগিন সফল হলে সেশন সেট করুন
+        $_SESSION['loggedin'] = true;
+        header('Location: index.php'); // লগিন সফল হলে রিডিরেক্ট করুন
+        exit;
+    } else {
+        $error = 'সঠিক ইউজার ও পাসওয়ার্ড দিন';
+    }
+}
 <!DOCTYPE html>
 <html lang="bn">
 <head>
