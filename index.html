@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>লগইন ফর্ম</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap">
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #87CEEB; /* Sky blue color */
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #00BFFF; /* Darker sky blue on hover */
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>লগইন করুন</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">ইউজারনেম</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">পাসওয়ার্ড</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <input type="submit" value="লগইন">
+            <div class="error" id="errorMessage"></div>
+        </form>
+    </div>
+
+    <script>
+        async function loadUsers() {
+            const response = await fetch('users.json');
+            const users = await response.json();
+            return users;
+        }
+
+        function validateUser(username, password, users) {
+            return users.some(user => user.username === username && user.password === password);
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const users = await loadUsers();
+
+            if (validateUser(username, password, users)) {
+                window.location.href = 'main.html'; // Redirect to main.html on successful login
+            } else {
+                document.getElementById('errorMessage').innerText = 'সঠিক ইউজার ও পাসওয়ার্ড দিন';
+            }
+        });
+    </script>
+</body>
+</html>
