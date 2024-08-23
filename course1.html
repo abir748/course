@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -188,7 +187,7 @@
     <div class="class-list">
         <h3>যে ক্লাসটি করতে চান তার উপর ক্লিক করুন</h3>
         <p align='center'><b> ক্লাস প্লে না হলে বামে ক্লিক করুন</b></p><br>
-        <div class="class-item" onclick="playSpecificVideo('wDhdcL-Gr6Y','https://drive.google.com/file/d/1ERWo_3P1vQNlbVdcGcbCshs6m3sOZggn/view?usp=drivesdk')">
+        <div class="class-item" onclick="playSpecificVideo('FimIFIGkGAU', 'https://drive.google.com/file/d/19iAnL0vql2iAA1FJpu8QKmPDXb4vL6L1/view?usp=drivesdk')">
            অরিয়েন্টেশন ক্লাস
         </div>
         <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_2', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
@@ -208,44 +207,8 @@
 </div>
 
 <script>
-    // Check if user is logged in
-    function checkLoginStatus() {
-        var isLoggedIn = sessionStorage.getItem('isLoggedIn');
-        
-        if (!isLoggedIn || isLoggedIn !== 'true') {
-            // Redirect to login.html if not logged in
-            window.location.href = 'login.html';
-        }
-    }
-
-    // Call the checkLoginStatus function on page load
-    checkLoginStatus();
-
-    // Initialize video player and other functionalities
     var player;
     var pdfLink; // Variable to hold the current PDF link
-
-    function playVideo() {
-        player.playVideo();
-    }
-
-    function pauseVideo() {
-        player.pauseVideo();
-    }
-
-    function seek(seconds) {
-        player.seekTo(player.getCurrentTime() + seconds, true);
-    }
-
-    function changeSpeed(speed) {
-        player.setPlaybackRate(parseFloat(speed));
-    }
-
-    function playSpecificVideo(videoId, pdfUrl) {
-        player.loadVideoById(videoId);
-        pdfLink = pdfUrl;
-        document.getElementById('pdfCard').style.display = 'block';
-    }
 
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('videoPlayer', {
@@ -256,14 +219,64 @@
     }
 
     function onPlayerReady(event) {
-        document.getElementById('videoPlayer').style.pointerEvents = 'auto';
+        console.log("Player is ready.");
     }
 
-    // Load the YouTube IFrame Player API code asynchronously
+    function playVideo() {
+        if (player) {
+            player.playVideo();
+            console.log("Video played.");
+        } else {
+            console.log("Player not initialized.");
+        }
+    }
+
+    function pauseVideo() {
+        if (player) {
+            player.pauseVideo();
+            console.log("Video paused.");
+        } else {
+            console.log("Player not initialized.");
+        }
+    }
+
+    function seek(seconds) {
+        if (player) {
+            var currentTime = player.getCurrentTime();
+            player.seekTo(currentTime + seconds);
+            console.log("Seeked to " + (currentTime + seconds) + " seconds.");
+        } else {
+            console.log("Player not initialized.");
+        }
+    }
+
+    function changeSpeed(speed) {
+        if (player) {
+            player.setPlaybackRate(parseFloat(speed));
+            console.log("Playback speed changed to " + speed + "x.");
+        } else {
+            console.log("Player not initialized.");
+        }
+    }
+
+    function playSpecificVideo(videoId, pdfLinkParam) {
+        if (player) {
+            player.loadVideoById(videoId);
+            player.playVideo(); // Start playing immediately after loading
+            console.log("Video loaded and played: " + videoId);
+            document.getElementById('pdfCard').style.display = 'block'; // Show the card
+            pdfLink = pdfLinkParam; // Update PDF link
+        } else {
+            console.log("Player not initialized.");
+        }
+    }
+
+    // Load the IFrame Player API code asynchronously
     var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 </script>
+
 </body>
 </html>
