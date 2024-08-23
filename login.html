@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if (validateUser(username, password, users)) {
                 document.cookie = "loggedIn=true; path=/"; // Set cookie to indicate login
-                window.location.href = 'course1.html'; // Redirect to course1.html on successful login
+                window.location.href = 'index.html'; // Redirect to index.html on successful login
             } else {
                 document.getElementById('errorMessage').innerText = 'সঠিক ইউজার ও পাসওয়ার্ড দিন';
             }
