@@ -1,11 +1,4 @@
-<?php
-session_start();
 
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: login.php');
-    exit;
-}
-?>
 
 
 <!DOCTYPE html>
@@ -225,16 +218,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 }
             }
         }
-
-        function checkLogin() {
-            const cookies = document.cookie.split(';');
-            const loggedInCookie = cookies.find(cookie => cookie.trim().startsWith('loggedIn='));
-            if (!loggedInCookie || loggedInCookie.split('=')[1] !== 'true') {
-                window.location.href = 'login.html'; // Redirect to login page if not logged in
-            }
-        }
-
-        checkLogin(); // Call the function to check login status on page load
+			}
     </script>
 </body>
 </html>
