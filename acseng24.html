@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protected Video Player</title>
+    <title>Protected Page with Video Player</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
-        @import url('https://fonts.maateen.me/kalpurush/font.css');
-
         body {
             font-family: 'Hind Siliguri', Arial, sans-serif;
             background-color: #f4f4f4;
@@ -17,190 +14,159 @@
             height: 100vh;
             margin: 0;
         }
-
-        .login-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            font-family: 'Kalpurush', Arial, sans-serif;
-        }
-
-        .login-container input {
-            padding: 10px;
-            margin: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-family: 'Kalpurush', Arial, sans-serif;
-            font-size: 16px;
-        }
-
-        .login-container button {
-            padding: 10px;
-            background-color: #87ceeb;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-family: 'Kalpurush', Arial, sans-serif;
-            font-size: 16px;
-        }
-
-        .error-message {
-            color: red;
-            margin-top: 10px;
-            font-family: 'Kalpurush', Arial, sans-serif;
-        }
-
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 400px;
             padding: 20px;
-            margin: auto;
-            text-align: center;
-            font-family: 'Kalpurush', Arial, sans-serif;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
-
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #87ceeb;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .login-btn:hover {
+            background-color: #70b9e2;
+        }
+        #errorMessage {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+        }
+        #protectedContent {
+            display: none;
+            text-align: center;
+        }
         .video-container {
             position: relative;
-            padding-top: 56.25%;
-            margin-bottom: 20px;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            margin-top: 20px;
             background-color: #000;
             border-radius: 10px;
             overflow: hidden;
+            border: 5px solid #87ceeb;
         }
-
         #videoPlayer {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 10px;
         }
-
         .controls {
-            margin: 20px 0;
+            margin-top: 20px;
             display: flex;
             justify-content: center;
             gap: 10px;
         }
-
         .controls button {
-            padding: 10px;
+            padding: 8px 12px;
             border: none;
             border-radius: 5px;
             background-color: #87ceeb;
-            color: white;
-            font-family: 'Kalpurush', Arial, sans-serif;
+            color: #fff;
             cursor: pointer;
             font-size: 14px;
         }
-
-        .controls button:hover {
-            background-color: #70b9e2;
-        }
-
-        .class-list {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .class-item {
-            padding: 10px;
-            margin: 5px;
-            background-color: #87ceeb;
-            border-radius: 5px;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .class-item:hover {
-            background-color: #70b9e2;
-        }
-
     </style>
 </head>
 <body>
 
-<!-- Login Section -->
-<div class="login-container" id="loginSection">
-    <h2>পাসওয়ার্ড দিয়ে লগইন করুন</h2>
-    <input type="text" id="usernameInput" placeholder="ইউজার নাম">
-    <input type="password" id="passwordInput" placeholder="পাসওয়ার্ড">
-    <button onclick="validateLogin()">লগইন করুন</button>
-    <p class="error-message" id="errorMessage"></p>
+<div class="container" id="loginSection">
+    <h2>Login</h2>
+    <input type="text" id="usernameInput" class="input-field" placeholder="Username">
+    <input type="password" id="passwordInput" class="input-field" placeholder="Password">
+    <button class="login-btn" onclick="validateLogin()">Login</button>
+    <p id="errorMessage"></p>
 </div>
 
-<!-- Main Content (Hidden until logged in) -->
-<div class="container" id="protectedContent" style="display: none;">
-    <!-- Video Player Section -->
+<div id="protectedContent">
+    <h2>Protected Content</h2>
+    <p>You have successfully logged in! Below is the video player:</p>
+
     <div class="video-container">
-        <iframe id="videoPlayer" src="https://www.youtube.com/embed/FimIFIGkGAU?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+        <iframe id="videoPlayer"
+                src="https://www.youtube.com/embed/?enablejsapi=1"
+                frameborder="0"
+                allowfullscreen>
+        </iframe>
     </div>
 
-    <!-- Video Controls -->
     <div class="controls">
         <button onclick="playVideo()">Play</button>
         <button onclick="pauseVideo()">Pause</button>
         <button onclick="seek(-5)">Rewind 5s</button>
         <button onclick="seek(5)">Forward 5s</button>
     </div>
-
-    <!-- Class List -->
-    <div class="class-list">
-        <h3>ক্লাসের তালিকা</h3>
-        <div class="class-item" onclick="playSpecificVideo('FimIFIGkGAU')">অরিয়েন্টেশন ক্লাস</div>
-        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_2')">ক্লাস ২</div>
-        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_3')">ক্লাস ৩</div>
-    </div>
 </div>
 
-<!-- JavaScript -->
 <script src="password.js"></script>
 <script>
     var player;
 
-    // Validate login
     function validateLogin() {
         const username = document.getElementById('usernameInput').value;
         const password = document.getElementById('passwordInput').value;
 
+        // Check if the entered username and password match any in validUsers
         if (validUsers[username] === password) {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('protectedContent').style.display = 'block';
+            document.getElementById('loginSection').style.display = 'none'; // Hide login section
+            document.getElementById('protectedContent').style.display = 'block'; // Show protected content
+            loadYouTubePlayer(); // Load the YouTube player after successful login
         } else {
             document.getElementById('errorMessage').innerText = 'ভুল ইউজার নাম বা পাসওয়ার্ড';
         }
     }
 
-    // YouTube API
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('videoPlayer');
+    function loadYouTubePlayer() {
+        player = new YT.Player('videoPlayer', {
+            events: {
+                'onReady': onPlayerReady
+            }
+        });
+    }
+
+    function onPlayerReady(event) {
+        console.log("Player is ready.");
     }
 
     function playVideo() {
-        player.playVideo();
+        if (player) {
+            player.playVideo();
+        }
     }
 
     function pauseVideo() {
-        player.pauseVideo();
+        if (player) {
+            player.pauseVideo();
+        }
     }
 
     function seek(seconds) {
-        var currentTime = player.getCurrentTime();
-        player.seekTo(currentTime + seconds);
+        if (player) {
+            var currentTime = player.getCurrentTime();
+            player.seekTo(currentTime + seconds);
+        }
     }
 
-    function playSpecificVideo(videoId) {
-        player.loadVideoById(videoId);
-        player.playVideo();
-    }
-
-    // Load YouTube Iframe API asynchronously
+    // Load the YouTube API
     var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
