@@ -93,7 +93,6 @@
             cursor: pointer;
             font-size: 14px;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            font-family: 'Hind Siliguri', Arial, sans-serif; /* Apply font to controls */
         }
 
         .controls button:hover, .controls select:hover {
@@ -156,158 +155,140 @@
             background-color: #70b9e2; /* Slightly darker sky blue on hover */
             transform: translateY(-2px); /* Subtle lift effect */
         }
-
-        /* Hide content by default */
-        #content {
-            display: none;
-        }
-
-        .login-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            font-family: 'Hind Siliguri', Arial, sans-serif; /* Apply font to login container */
-        }
-
-        .login-container input {
-            padding: 10px;
-            margin: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-family: 'Hind Siliguri', Arial, sans-serif; /* Apply font to input boxes */
-        }
-
-        .login-container button {
-            padding: 10px;
-            background-color: #87ceeb;
-            border: none;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-            font-family: 'Hind Siliguri', Arial, sans-serif; /* Apply font to button */
-        }
-
-        .error-message {
-            color: red;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
-    <!-- Login Section -->
-    <div class="login-container" id="loginSection">
-        <h2>পাসওয়ার্ড প্রবেশ করান</h2>
-        <input type="text" id="usernameInput" placeholder="ইউজার নাম লিখুন">
-        <input type="password" id="passwordInput" placeholder="পাসওয়ার্ড লিখুন">
-        <button onclick="checkPassword()">লগইন করুন</button>
-        <div class="error-message" id="errorMessage"></div>
+<div class="container">
+    <!-- Video Player Section -->
+    <div class="video-container">
+        <iframe id="videoPlayer" 
+                src="https://www.youtube.com/embed/?enablejsapi=1" 
+                frameborder="0" 
+                allowfullscreen>
+        </iframe>
+        <!-- Touch blockers -->
+        <div class="touch-blocker touch-blocker-top"></div>
+        <div class="touch-blocker touch-blocker-right"></div>
     </div>
 
-    <!-- Main Content Section -->
-    <div id="content">
-        <div class="container">
-            <!-- Video Player Section -->
-            <div class="video-container">
-                <iframe id="videoPlayer" 
-                        src="https://www.youtube.com/embed/?enablejsapi=1" 
-                        frameborder="0" 
-                        allowfullscreen>
-                </iframe>
-                <!-- Touch blockers -->
-                <div class="touch-blocker touch-blocker-top"></div>
-                <div class="touch-blocker touch-blocker-right"></div>
-            </div>
+    <!-- Controls -->
+    <div class="controls">
+        <button onclick="playVideo()">Play</button>
+        <button onclick="pauseVideo()">Pause</button>
+        <button onclick="seek(-5)">Rewind 5s</button>
+        <button onclick="seek(5)">Forward 5s</button>
 
-            <!-- Controls -->
-            <div class="controls">
-                <button onclick="playVideo()">Play</button>
-                <button onclick="pauseVideo()">Pause</button>
-                <button onclick="seek(-5)">Rewind 5s</button>
-                <button onclick="seek(5)">Forward 5s</button>
-
-                <div class="speed-control">
-                    <select id="speed" onchange="changeSpeed(this.value)">
-                        <option value="0.25">0.25x</option>
-                        <option value="0.5">0.5x</option>
-                        <option value="1" selected>1x</option>
-                        <option value="1.5">1.5x</option>
-                        <option value="2">2x</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- PDF Card -->
-            <div class="pdf-card" id="pdfCard">
-                View PDF
-            </div>
-
-            <!-- Class List -->
-            <div class="class-list" id="classList">
-                <h3>Class List</h3>
-                <div class="class-item" data-pdf="pdf/class1.pdf">Class 1</div>
-                <div class="class-item" data-pdf="pdf/class2.pdf">Class 2</div>
-                <div class="class-item" data-pdf="pdf/class3.pdf">Class 3</div>
-                <!-- Add more class items as needed -->
-            </div>
+        <div class="speed-control">
+            <label for="speed" style="display: none;">Speed:</label>
+            <select id="speed" onchange="changeSpeed(this.value)">
+                <option value="0.25">0.25x</option>
+                <option value="0.5">0.5x</option>
+                <option value="1" selected>1x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+            </select>
         </div>
     </div>
 
-    <!-- Include external JavaScript files -->
-    <script src="passwords.js"></script>
-    <script>
-        function checkCredentials(username, password) {
-            return validUsers[username] === password;
-        }
+    <!-- PDF Card -->
+    <div class="pdf-card" id="pdfCard" onclick="window.open(pdfLink, '_blank')">
+        <span id="pdfText">ক্লাস নোট</span>
+    </div>
 
-        function checkPassword() {
-            const username = document.getElementById('usernameInput').value;
-            const password = document.getElementById('passwordInput').value;
-            const errorMessage = document.getElementById('errorMessage');
-            const loginSection = document.getElementById('loginSection');
-            const content = document.getElementById('content');
+    <!-- Scrollable Class List Section -->
+    <div class="class-list">
+        <h3>যে ক্লাসটি করতে চান তার উপর ক্লিক করুন</h3>
+        <p align='center'><b> ক্লাস প্লে না হলে বামে ক্লিক করুন</b></p><br>
+        <div class="class-item" onclick="playSpecificVideo('wDhdcL-Gr6Y', 'https://drive.google.com/file/d/19iAnL0vql2iAA1FJpu8QKmPDXb4vL6L1/view?usp=drivesdk')">
+           অরিয়েন্টেশন ক্লাস
+        </div>
+        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_2', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
+            Class 2: Video 2
+        </div>
+        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_3', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
+            Class 3: Video 3
+        </div>
+        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_4', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
+            Class 4: Video 4
+        </div>
+        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_5', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
+            Class 5: Video 5
+        </div>
+        <!-- Add more classes as needed -->
+    </div>
+</div>
 
-            if (checkCredentials(username, password)) {
-                loginSection.style.display = 'none';
-                content.style.display = 'block';
-            } else {
-                errorMessage.textContent = 'Invalid username or password';
+<script>
+    var player;
+    var pdfLink; // Variable to hold the current PDF link
+
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('videoPlayer', {
+            events: {
+                'onReady': onPlayerReady
             }
-        }
-
-        function playVideo() {
-            const player = document.getElementById('videoPlayer');
-            player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-        }
-
-        function pauseVideo() {
-            const player = document.getElementById('videoPlayer');
-            player.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-        }
-
-        function seek(seconds) {
-            const player = document.getElementById('videoPlayer');
-            player.contentWindow.postMessage(`{"event":"command","func":"seekTo","args":[${seconds}, true]}`, '*');
-        }
-
-        function changeSpeed(speed) {
-            const player = document.getElementById('videoPlayer');
-            player.contentWindow.postMessage(`{"event":"command","func":"setPlaybackRate","args":[${speed}]}`, '*');
-        }
-
-        function openPdf(pdfPath) {
-            window.open(pdfPath, '_blank');
-        }
-
-        document.querySelectorAll('.class-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const pdfPath = item.getAttribute('data-pdf');
-                openPdf(pdfPath);
-            });
         });
-    </script>
+    }
+
+    function onPlayerReady(event) {
+        console.log("Player is ready.");
+    }
+
+    function playVideo() {
+        if (player) {
+            player.playVideo();
+            console.log("Video played.");
+        } else {
+            console.log("Player not initialized.");
+        }
+    }
+
+    function pauseVideo() {
+        if (player) {
+            player.pauseVideo();
+            console.log("Video paused.");
+        } else {
+            console.log("Player not initialized.");
+        }
+    }
+
+    function seek(seconds) {
+        if (player) {
+            var currentTime = player.getCurrentTime();
+            player.seekTo(currentTime + seconds);
+            console.log("Seeked to " + (currentTime + seconds) + " seconds.");
+        } else {
+            console.log("Player not initialized.");
+        }
+    }
+
+    function changeSpeed(speed) {
+        if (player) {
+            player.setPlaybackRate(parseFloat(speed));
+            console.log("Playback speed changed to " + speed + "x.");
+        } else {
+            console.log("Player not initialized.");
+        }
+    }
+
+    function playSpecificVideo(videoId, pdfLinkParam) {
+        if (player) {
+            player.loadVideoById(videoId);
+            player.playVideo(); // Start playing immediately after loading
+            console.log("Video loaded and played: " + videoId);
+            document.getElementById('pdfCard').style.display = 'block'; // Show the card
+            pdfLink = pdfLinkParam; // Update PDF link
+        } else {
+            console.log("Player not initialized.");
+        }
+    }
+
+    // Load the IFrame Player API code asynchronously
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+</script>
+
 </body>
 </html>
