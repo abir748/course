@@ -241,14 +241,16 @@
             </div>
 
             <!-- PDF Card -->
-            <div class="pdf-card" onclick="openPdf()">View PDF</div>
+            <div class="pdf-card" id="pdfCard">
+                View PDF
+            </div>
 
             <!-- Class List -->
             <div class="class-list" id="classList">
                 <h3>Class List</h3>
-                <div class="class-item">Class 1</div>
-                <div class="class-item">Class 2</div>
-                <div class="class-item">Class 3</div>
+                <div class="class-item" data-pdf="pdf/class1.pdf">Class 1</div>
+                <div class="class-item" data-pdf="pdf/class2.pdf">Class 2</div>
+                <div class="class-item" data-pdf="pdf/class3.pdf">Class 3</div>
                 <!-- Add more class items as needed -->
             </div>
         </div>
@@ -296,10 +298,16 @@
             player.contentWindow.postMessage(`{"event":"command","func":"setPlaybackRate","args":[${speed}]}`, '*');
         }
 
-        function openPdf() {
-            // Implement your PDF view logic here
-            alert('Opening PDF');
+        function openPdf(pdfPath) {
+            window.open(pdfPath, '_blank');
         }
+
+        document.querySelectorAll('.class-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const pdfPath = item.getAttribute('data-pdf');
+                openPdf(pdfPath);
+            });
+        });
     </script>
 </body>
 </html>
