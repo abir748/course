@@ -3,17 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Protected Video Player</title>
+    <title>Login or Content</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
-
-        /* Basic Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Hind Siliguri', Arial, sans-serif;
             display: flex;
@@ -21,27 +13,64 @@
             justify-content: center;
             height: 100vh;
             background-color: #f4f4f4;
+            margin: 0;
         }
 
-        .container {
-            width: 90%;
-            max-width: 800px;
+        .login-container, .content-container {
+            display: none;
             background: #fff;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             text-align: center;
+            width: 300px;
+        }
+
+        .login-container {
+            display: block;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .login-container button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
         }
 
         .video-container {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* 16:9 aspect ratio */
+            padding-top: 56.25%;
             margin-bottom: 20px;
             background-color: #000;
             border-radius: 10px;
-            border: 5px solid #87ceeb; /* Sky blue border */
-            overflow: hidden; /* Ensures rounded corners and border visibility */
+            border: 5px solid #87ceeb;
+            overflow: hidden;
         }
 
         #videoPlayer {
@@ -51,26 +80,6 @@
             width: 100%;
             height: 100%;
             border-radius: 10px;
-        }
-
-        .touch-blocker {
-            position: absolute;
-            z-index: 10; /* Ensures it's on top of the player */
-            background-color: rgba(0, 0, 0, 0); /* Transparent background to cover the area */
-        }
-
-        .touch-blocker-top {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 50%; /* Covers top half of the player */
-        }
-
-        .touch-blocker-right {
-            top: 50%; /* Starts from the middle of the player */
-            right: 0;
-            width: 50%; /* Covers right half of the player */
-            height: 50%; /* Covers bottom half of the player */
         }
 
         .controls {
@@ -85,16 +94,16 @@
             padding: 8px 12px;
             border: none;
             border-radius: 5px;
-            background-color: #87ceeb; /* Sky blue background */
-            color: #fff; /* Text color */
+            background-color: #87ceeb;
+            color: #fff;
             cursor: pointer;
             font-size: 14px;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .controls button:hover, .controls select:hover {
-            background-color: #70b9e2; /* Slightly darker sky blue on hover */
-            transform: translateY(-2px); /* Subtle lift effect */
+            background-color: #70b9e2;
+            transform: translateY(-2px);
         }
 
         .controls select {
@@ -102,29 +111,29 @@
         }
 
         .pdf-card {
-            display: none; /* Hidden by default */
+            display: none;
             margin-top: 20px;
             padding: 20px;
-            background-color: #87ceeb; /* Sky blue background */
+            background-color: #87ceeb;
             border-radius: 10px;
             text-align: center;
-            color: #000; /* Black text color */
+            color: #000;
             cursor: pointer;
             font-weight: bold;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            width: 80%; /* Adjust width to be larger */
-            max-width: 600px; /* Maximum width */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .pdf-card:hover {
-            background-color: #70b9e2; /* Slightly darker sky blue on hover */
-            transform: translateY(-2px); /* Subtle lift effect */
+            background-color: #70b9e2;
+            transform: translateY(-2px);
         }
 
         .class-list {
             width: 100%;
-            max-height: 300px; /* Increased height */
+            max-height: 300px;
             overflow-y: auto;
             border-radius: 10px;
             border: 1px solid #ccc;
@@ -140,166 +149,129 @@
         .class-item {
             padding: 10px;
             margin-bottom: 10px;
-            background-color: #87ceeb; /* Sky blue background */
+            background-color: #87ceeb;
             border-radius: 5px;
             cursor: pointer;
-            color: #000; /* Black text color */
-            font-weight: bold; /* Bold text */
+            color: #000;
+            font-weight: bold;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .class-item:hover {
-            background-color: #70b9e2; /* Slightly darker sky blue on hover */
-            transform: translateY(-2px); /* Subtle lift effect */
-        }
-
-        /* Password Prompt */
-        #passwordPrompt {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: rgba(255, 255, 255, 0.9);
-            position: absolute;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        #passwordPrompt h2 {
-            margin-bottom: 20px;
-        }
-
-        #passwordInput {
-            width: 80%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        #passwordPrompt button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        #passwordPrompt button:hover {
-            background-color: #0056b3;
+            background-color: #70b9e2;
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
-    <!-- Password Prompt -->
-    <div id="passwordPrompt">
-        <h2>Enter Password</h2>
-        <input type="password" id="passwordInput" placeholder="Enter password">
-        <button onclick="validatePassword()">Submit</button>
-        <p id="errorMessage" style="color: red;"></p>
+    <!-- Login Container -->
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p id="errorMessage" class="error-message"></p>
     </div>
 
-    <!-- Main Content (Initially Hidden) -->
-    <div class="container" style="display: none;">
-        <!-- Video Player Section -->
+    <!-- Content Container -->
+    <div class="content-container">
         <div class="video-container">
             <iframe id="videoPlayer" src="https://www.youtube.com/embed/?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
-            <div class="touch-blocker touch-blocker-top"></div>
-            <div class="touch-blocker touch-blocker-right"></div>
         </div>
 
-        <!-- Controls -->
         <div class="controls">
             <button onclick="playVideo()">Play</button>
             <button onclick="pauseVideo()">Pause</button>
             <button onclick="seek(-5)">Rewind 5s</button>
             <button onclick="seek(5)">Forward 5s</button>
-
-            <div class="speed-control">
-                <label for="speed" style="display: none;">Speed:</label>
-                <select id="speed" onchange="changeSpeed(this.value)">
-                    <option value="0.25">0.25x</option>
-                    <option value="0.5">0.5x</option>
-                    <option value="1" selected>1x</option>
-                    <option value="1.5">1.5x</option>
-                    <option value="2">2x</option>
-                </select>
-            </div>
+            <select id="speed" onchange="changeSpeed(this.value)">
+                <option value="0.25">0.25x</option>
+                <option value="0.5">0.5x</option>
+                <option value="1" selected>1x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+            </select>
         </div>
 
-        <!-- PDF Card -->
-        <div class="pdf-card" id="pdfCard" onclick="window.open(pdfLink, '_blank')">
-            <span id="pdfText">ক্লাস নোট</span>
+        <div class="pdf-card">
+            Click here for PDF
         </div>
 
-        <!-- Scrollable Class List Section -->
         <div class="class-list">
-            <h3>যে ক্লাসটি করতে চান তার উপর ক্লিক করুন</h3>
-            <p align='center'><b> ক্লাস প্লে না হলে বামে ক্লিক করুন</b></p><br>
-            <div class="class-item" onclick="playSpecificVideo('wDhdcL-Gr6Y', 'https://drive.google.com/file/d/19iAnL0vql2iAA1FJpu8QKmPDXb4vL6L1/view?usp=drivesdk')">
-                অরিয়েন্টেশন ক্লাস
-            </div>
-            <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_2', 'https://drive.google.com/file/d/1hOjzN8iZ3fQ-XK62P6XVV6hE-3ShcZ69/view?usp=drivesdk')">
-                ক্লাস 1
-            </div>
-            <!-- Add more class items here -->
+            <h3>Classes</h3>
+            <div class="class-item" onclick="showPdf()">Class 1</div>
+            <div class="class-item" onclick="showPdf()">Class 2</div>
+            <div class="class-item" onclick="showPdf()">Class 3</div>
         </div>
     </div>
 
-    <script src="passwords.js"></script>
+    <!-- Include password.js -->
+    <script src="password.js"></script>
+
     <script>
-        // Function to validate password
-        function validatePassword() {
-            const inputPassword = document.getElementById('passwordInput').value;
-            const errorMessage = document.getElementById('errorMessage');
-            if (validUsers['abir'] === inputPassword) { // Replace 'abir' with the username you want to use
-                document.getElementById('passwordPrompt').style.display = 'none'; // Hide password prompt
-                document.querySelector('.container').style.display = 'block'; // Show main content
+        // Check if user is logged in
+        function checkLogin() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn === 'true') {
+                document.querySelector('.login-container').style.display = 'none';
+                document.querySelector('.content-container').style.display = 'block';
             } else {
-                errorMessage.textContent = 'Incorrect password. Please try again.';
+                document.querySelector('.login-container').style.display = 'block';
+                document.querySelector('.content-container').style.display = 'none';
             }
         }
 
-        // Video control functions
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (validUsers[username] === password) {
+                localStorage.setItem('isLoggedIn', 'true');
+                checkLogin(); // Update display after login
+            } else {
+                errorMessage.textContent = 'Invalid username or password.';
+            }
+        }
+
         function playVideo() {
-            document.getElementById('videoPlayer').contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            const player = document.getElementById('videoPlayer');
+            player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
         }
 
         function pauseVideo() {
-            document.getElementById('videoPlayer').contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            const player = document.getElementById('videoPlayer');
+            player.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
         }
 
         function seek(seconds) {
             const player = document.getElementById('videoPlayer');
-            player.contentWindow.postMessage(JSON.stringify({
-                event: 'command',
-                func: 'seekTo',
-                args: [player.contentWindow.ytplayer.getVideoData().duration + seconds]
-            }), '*');
+            player.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[' + (currentTime() + seconds) + ']}', '*');
+        }
+
+        function currentTime() {
+            const player = document.getElementById('videoPlayer');
+            let time = 0;
+            player.contentWindow.postMessage('{"event":"command","func":"getCurrentTime","args":""}', '*');
+            window.addEventListener('message', function(event) {
+                if (event.data && event.data.info && event.data.info.currentTime) {
+                    time = event.data.info.currentTime;
+                }
+            });
+            return time;
         }
 
         function changeSpeed(speed) {
-            document.getElementById('videoPlayer').contentWindow.postMessage(JSON.stringify({
-                event: 'command',
-                func: 'setPlaybackRate',
-                args: [parseFloat(speed)]
-            }), '*');
+            const player = document.getElementById('videoPlayer');
+            player.contentWindow.postMessage('{"event":"command","func":"setPlaybackRate","args":[' + speed + ']}', '*');
         }
 
-        function playSpecificVideo(videoId, pdfLink) {
-            document.getElementById('videoPlayer').src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
-            document.getElementById('pdfCard').onclick = function() {
-                window.open(pdfLink, '_blank');
-            };
-            playVideo();
+        function showPdf() {
+            document.querySelector('.pdf-card').style.display = 'block';
         }
 
-        const pdfLink = 'https://drive.google.com/file/d/19iAnL0vql2iAA1FJpu8QKmPDXb4vL6L1/view?usp=drivesdk';
+        // Initialize page
+        checkLogin();
     </script>
 </body>
 </html>
