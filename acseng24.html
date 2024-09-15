@@ -5,290 +5,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Player with Class List</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
-
-        /* Basic Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Hind Siliguri', Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden; /* Prevent body scroll */
-        }
-
-        .container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-            border-radius: 10px;
-        }
-
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* 16:9 aspect ratio */
-            margin-bottom: 20px;
-            background-color: #000;
-            border-radius: 10px;
-            border: 5px solid #87ceeb; /* Sky blue border */
-            overflow: hidden; /* Ensures rounded corners and border visibility */
-        }
-
-        #videoPlayer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-        }
-
-        .touch-blocker {
-            position: absolute;
-            z-index: 10; /* Ensures it's on top of the player */
-            background-color: rgba(0, 0, 0, 0); /* Transparent background to cover the area */
-        }
-
-        .touch-blocker-top {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 50%; /* Covers top half of the player */
-        }
-
-        .touch-blocker-right {
-            top: 50%; /* Starts from the middle of the player */
-            right: 0;
-            width: 50%; /* Covers right half of the player */
-            height: 50%; /* Covers bottom half of the player */
-        }
-
-        .controls {
-            margin: 20px 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .controls button, .controls select {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 5px;
-            background-color: #87ceeb; /* Sky blue background */
-            color: #fff; /* Text color */
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .controls button:hover, .controls select:hover {
-            background-color: #70b9e2; /* Slightly darker sky blue on hover */
-            transform: translateY(-2px); /* Subtle lift effect */
-        }
-
-        .controls select {
-            width: 80px;
-        }
-
-        .pdf-card {
-            display: none; /* Hidden by default */
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #87ceeb; /* Sky blue background */
-            border-radius: 10px;
-            text-align: center;
-            color: #000; /* Black text color */
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            width: 80%; /* Adjust width to be larger */
-            max-width: 600px; /* Maximum width */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
-        }
-
-        .pdf-card:hover {
-            background-color: #70b9e2; /* Slightly darker sky blue on hover */
-            transform: translateY(-2px); /* Subtle lift effect */
-        }
-
-        .class-list {
-            width: 100%;
-            max-height: 300px; /* Increased height */
-            overflow-y: auto;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            background-color: #fafafa;
-        }
-
-        .class-list h3 {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .class-item {
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #87ceeb; /* Sky blue background */
-            border-radius: 5px;
-            cursor: pointer;
-            color: #000; /* Black text color */
-            font-weight: bold; /* Bold text */
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .class-item:hover {
-            background-color: #70b9e2; /* Slightly darker sky blue on hover */
-            transform: translateY(-2px); /* Subtle lift effect */
-        }
+        /* Your existing CSS here */
     </style>
 </head>
-<body>
-<div class="container">
-    <!-- Video Player Section -->
-    <div class="video-container">
-        <iframe id="videoPlayer" 
-                src="https://www.youtube.com/embed/?enablejsapi=1" 
-                frameborder="0" 
-                allowfullscreen>
-        </iframe>
-        <!-- Touch blockers -->
-        <div class="touch-blocker touch-blocker-top"></div>
-        <div class="touch-blocker touch-blocker-right"></div>
-    </div>
+<body onload="checkPassword()">
+    <div class="container" id="content">
+        <!-- Password Prompt -->
+        <div id="passwordPrompt">
+            <input type="password" id="passwordInput" placeholder="Enter password">
+            <button onclick="validatePassword()">Submit</button>
+            <p id="errorMessage" style="color: red;"></p>
+        </div>
 
-    <!-- Controls -->
-    <div class="controls">
-        <button onclick="playVideo()">Play</button>
-        <button onclick="pauseVideo()">Pause</button>
-        <button onclick="seek(-5)">Rewind 5s</button>
-        <button onclick="seek(5)">Forward 5s</button>
+        <!-- Video Player Section -->
+        <div class="video-container" style="display:none;" id="videoSection">
+            <iframe id="videoPlayer" 
+                    src="https://www.youtube.com/embed/?enablejsapi=1" 
+                    frameborder="0" 
+                    allowfullscreen>
+            </iframe>
+            <!-- Touch blockers -->
+            <div class="touch-blocker touch-blocker-top"></div>
+            <div class="touch-blocker touch-blocker-right"></div>
+        </div>
 
-        <div class="speed-control">
-            <label for="speed" style="display: none;">Speed:</label>
-            <select id="speed" onchange="changeSpeed(this.value)">
-                <option value="0.25">0.25x</option>
-                <option value="0.5">0.5x</option>
-                <option value="1" selected>1x</option>
-                <option value="1.5">1.5x</option>
-                <option value="2">2x</option>
-            </select>
+        <!-- Controls -->
+        <div class="controls" style="display:none;" id="controls">
+            <button onclick="playVideo()">Play</button>
+            <button onclick="pauseVideo()">Pause</button>
+            <button onclick="seek(-5)">Rewind 5s</button>
+            <button onclick="seek(5)">Forward 5s</button>
+
+            <div class="speed-control">
+                <label for="speed" style="display: none;">Speed:</label>
+                <select id="speed" onchange="changeSpeed(this.value)">
+                    <option value="0.25">0.25x</option>
+                    <option value="0.5">0.5x</option>
+                    <option value="1" selected>1x</option>
+                    <option value="1.5">1.5x</option>
+                    <option value="2">2x</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- PDF Card -->
+        <div class="pdf-card" id="pdfCard" onclick="window.open(pdfLink, '_blank')" style="display:none;">
+            <span id="pdfText">ক্লাস নোট</span>
+        </div>
+
+        <!-- Scrollable Class List Section -->
+        <div class="class-list" style="display:none;" id="classList">
+            <h3>যে ক্লাসটি করতে চান তার উপর ক্লিক করুন</h3>
+            <p align='center'><b> ক্লাস প্লে না হলে বামে ক্লিক করুন</b></p><br>
+            <div class="class-item" onclick="playSpecificVideo('wDhdcL-Gr6Y', 'https://drive.google.com/file/d/19iAnL0vql2iAA1FJpu8QKmPDXb4vL6L1/view?usp=drivesdk')">
+               অরিয়েন্টেশন ক্লাস
+            </div>
+            <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_2', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
+                Class 2: Video 2
+            </div>
+            <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_3', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
+                Class 3: Video 3
+            </div>
+            <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_4', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
+                Class 4: Video 4
+            </div>
+            <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_5', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
+                Class 5: Video 5
+            </div>
+            <!-- Add more classes as needed -->
         </div>
     </div>
 
-    <!-- PDF Card -->
-    <div class="pdf-card" id="pdfCard" onclick="window.open(pdfLink, '_blank')">
-        <span id="pdfText">ক্লাস নোট</span>
-    </div>
+    <script src="passwords.js"></script>
+    <script>
+        var player;
+        var pdfLink; // Variable to hold the current PDF link
 
-    <!-- Scrollable Class List Section -->
-    <div class="class-list">
-        <h3>যে ক্লাসটি করতে চান তার উপর ক্লিক করুন</h3>
-        <p align='center'><b> ক্লাস প্লে না হলে বামে ক্লিক করুন</b></p><br>
-        <div class="class-item" onclick="playSpecificVideo('wDhdcL-Gr6Y', 'https://drive.google.com/file/d/19iAnL0vql2iAA1FJpu8QKmPDXb4vL6L1/view?usp=drivesdk')">
-           অরিয়েন্টেশন ক্লাস
-        </div>
-        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_2', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
-            Class 2: Video 2
-        </div>
-        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_3', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
-            Class 3: Video 3
-        </div>
-        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_4', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
-            Class 4: Video 4
-        </div>
-        <div class="class-item" onclick="playSpecificVideo('VIDEO_ID_5', 'https://drive.google.com/file/d/1dLxTy3F2jNL2Xo8aGhE3XJbXY7ZlYd4S/view?usp=sharing')">
-            Class 5: Video 5
-        </div>
-        <!-- Add more classes as needed -->
-    </div>
-</div>
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('videoPlayer', {
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
 
-<script>
-    var player;
-    var pdfLink; // Variable to hold the current PDF link
+        function onPlayerReady(event) {
+            console.log("Player is ready.");
+        }
 
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('videoPlayer', {
-            events: {
-                'onReady': onPlayerReady
+        function playVideo() {
+            if (player) {
+                player.playVideo();
+                console.log("Video played.");
+            } else {
+                console.log("Player not initialized.");
             }
-        });
-    }
-
-    function onPlayerReady(event) {
-        console.log("Player is ready.");
-    }
-
-    function playVideo() {
-        if (player) {
-            player.playVideo();
-            console.log("Video played.");
-        } else {
-            console.log("Player not initialized.");
         }
-    }
 
-    function pauseVideo() {
-        if (player) {
-            player.pauseVideo();
-            console.log("Video paused.");
-        } else {
-            console.log("Player not initialized.");
+        function pauseVideo() {
+            if (player) {
+                player.pauseVideo();
+                console.log("Video paused.");
+            } else {
+                console.log("Player not initialized.");
+            }
         }
-    }
 
-    function seek(seconds) {
-        if (player) {
-            var currentTime = player.getCurrentTime();
-            player.seekTo(currentTime + seconds);
-            console.log("Seeked to " + (currentTime + seconds) + " seconds.");
-        } else {
-            console.log("Player not initialized.");
+        function seek(seconds) {
+            if (player) {
+                var currentTime = player.getCurrentTime();
+                player.seekTo(currentTime + seconds);
+                console.log("Seeked to " + (currentTime + seconds) + " seconds.");
+            } else {
+                console.log("Player not initialized.");
+            }
         }
-    }
 
-    function changeSpeed(speed) {
-        if (player) {
-            player.setPlaybackRate(parseFloat(speed));
-            console.log("Playback speed changed to " + speed + "x.");
-        } else {
-            console.log("Player not initialized.");
+        function changeSpeed(speed) {
+            if (player) {
+                player.setPlaybackRate(parseFloat(speed));
+                console.log("Playback speed changed to " + speed + "x.");
+            } else {
+                console.log("Player not initialized.");
+            }
         }
-    }
 
-    function playSpecificVideo(videoId, pdfLinkParam) {
-        if (player) {
-            player.loadVideoById(videoId);
-            player.playVideo(); // Start playing immediately after loading
-            console.log("Video loaded and played: " + videoId);
-            document.getElementById('pdfCard').style.display = 'block'; // Show the card
-            pdfLink = pdfLinkParam; // Update PDF link
-        } else {
-            console.log("Player not initialized.");
+        function playSpecificVideo(videoId, pdfLinkParam) {
+            if (player) {
+                player.loadVideoById(videoId);
+                player.playVideo(); // Start playing immediately after loading
+                console.log("Video loaded and played: " + videoId);
+                document.getElementById('pdfCard').style.display = 'block'; // Show the card
+                pdfLink = pdfLinkParam; // Update PDF link
+            } else {
+                console.log("Player not initialized.");
+            }
         }
-    }
 
-    // Load the IFrame Player API code asynchronously
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-</script>
+        function checkPassword() {
+            document.getElementById('content').style.display = 'none'; // Hide main content initially
+            document.getElementById('passwordPrompt').style.display = 'block'; // Show password prompt
+        }
 
+        function validatePassword() {
+            var inputPassword = document.getElementById('passwordInput').value;
+            var errorMessage = document.getElementById('errorMessage');
+            if (validUsers['abir'] === inputPassword) { // Replace 'abir' with the username you want to use
+                document.getElementById('passwordPrompt').style.display = 'none'; // Hide password prompt
+                document.getElementById('content').style.display = 'block'; // Show main content
+                loadYouTubeAPI(); // Load YouTube API if necessary
+            } else {
+                errorMessage.textContent = 'Incorrect password. Please try again.';
+            }
+        }
+
+        function loadYouTubeAPI() {
+            if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
+                // Load the IFrame Player API code asynchronously
+                var tag = document.createElement('script');
+                tag.src = "https://www.youtube.com/iframe_api";
+                var firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            } else {
+                onYouTubeIframeAPIReady(); // Initialize player if API is already loaded
+            }
+        }
+    </script>
 </body>
 </html>
