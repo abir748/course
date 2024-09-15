@@ -187,7 +187,7 @@
             border: none;
             color: white;
             cursor: pointer;
-										border-radius: 5px;
+            border-radius: 5px;
             font-family: 'Hind Siliguri', Arial, sans-serif; /* Apply font to button */
         }
 
@@ -241,86 +241,65 @@
             </div>
 
             <!-- PDF Card -->
-            <div class="pdf-card" id="pdfCard" onclick="window.open(pdfLink, '_blank')">
-                <span id="pdfText">ক্লাস নোট</span>
-            </div>
+            <div class="pdf-card" onclick="openPdf()">View PDF</div>
 
-            <!-- Scrollable Class List Section -->
-            <div class="class-list">
-                <h3>যে ক্লাসটি করতে চান তার উপর ক্লিক করুন</h3>
-                <p align='center'><b> ক্লাস প্লে না হলে বামে ক্লিক করুন</b></p>
-                <div id="classList">
-                    <!-- Dynamic class items -->
-                </div>
+            <!-- Class List -->
+            <div class="class-list" id="classList">
+                <h3>Class List</h3>
+                <div class="class-item">Class 1</div>
+                <div class="class-item">Class 2</div>
+                <div class="class-item">Class 3</div>
+                <!-- Add more class items as needed -->
             </div>
         </div>
     </div>
 
+    <!-- Include external JavaScript files -->
     <script src="passwords.js"></script>
     <script>
-        const videoPlayer = document.getElementById('videoPlayer');
-        const pdfCard = document.getElementById('pdfCard');
-        const pdfText = document.getElementById('pdfText');
-        const classList = document.getElementById('classList');
-        let pdfLink = 'https://example.com/your-pdf-file.pdf'; // Replace with your PDF link
+        function checkCredentials(username, password) {
+            return validUsers[username] === password;
+        }
 
-        // Show content if password is correct
         function checkPassword() {
             const username = document.getElementById('usernameInput').value;
             const password = document.getElementById('passwordInput').value;
             const errorMessage = document.getElementById('errorMessage');
-            
-            // Assuming 'passwords.js' exports a function named 'checkCredentials' for password validation
+            const loginSection = document.getElementById('loginSection');
+            const content = document.getElementById('content');
+
             if (checkCredentials(username, password)) {
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('content').style.display = 'block';
+                loginSection.style.display = 'none';
+                content.style.display = 'block';
             } else {
-                errorMessage.textContent = 'ইউজারনেম অথবা পাসওয়ার্ড ভুল';
+                errorMessage.textContent = 'Invalid username or password';
             }
         }
 
-        // Video controls
         function playVideo() {
-            videoPlayer.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            const player = document.getElementById('videoPlayer');
+            player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
         }
 
         function pauseVideo() {
-            videoPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            const player = document.getElementById('videoPlayer');
+            player.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
         }
 
         function seek(seconds) {
-            videoPlayer.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[' + (getCurrentTime() + seconds) + ']}', '*');
+            const player = document.getElementById('videoPlayer');
+            player.contentWindow.postMessage(`{"event":"command","func":"seekTo","args":[${seconds}, true]}`, '*');
         }
 
         function changeSpeed(speed) {
-            videoPlayer.contentWindow.postMessage('{"event":"command","func":"setPlaybackRate","args":[' + speed + ']}', '*');
+            const player = document.getElementById('videoPlayer');
+            player.contentWindow.postMessage(`{"event":"command","func":"setPlaybackRate","args":[${speed}]}`, '*');
         }
 
-        function getCurrentTime() {
-            // Implement this function to get the current time of the video
+        function openPdf() {
+            // Implement your PDF view logic here
+            alert('Opening PDF');
         }
-
-        // PDF card
-        pdfCard.addEventListener('click', () => {
-            window.open(pdfLink, '_blank');
-        });
-
-        // Class List
-        const classes = [
-            { name: 'Class 1', link: 'https://example.com/class1' },
-            { name: 'Class 2', link: 'https://example.com/class2' },
-            // Add more classes as needed
-        ];
-
-        classes.forEach(classItem => {
-            const div = document.createElement('div');
-            div.classList.add('class-item');
-            div.textContent = classItem.name;
-            div.addEventListener('click', () => {
-                window.open(classItem.link, '_blank');
-            });
-            classList.appendChild(div);
-        });
     </script>
 </body>
 </html>
