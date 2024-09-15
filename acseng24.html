@@ -3,8 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protected Page with Video Player</title>
+    <title>Video Player with Class List</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Hind Siliguri', Arial, sans-serif;
             background-color: #f4f4f4;
@@ -12,166 +21,298 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
+            overflow: hidden; /* Prevent body scroll */
         }
+
         .container {
             width: 100%;
-            max-width: 400px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
-            background-color: #fff;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
             border-radius: 10px;
         }
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .login-btn {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background-color: #87ceeb;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .login-btn:hover {
-            background-color: #70b9e2;
-        }
-        #errorMessage {
-            color: red;
-            margin-top: 10px;
-            text-align: center;
-        }
-        #protectedContent {
-            display: none;
-            text-align: center;
-        }
+
         .video-container {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
-            margin-top: 20px;
+            padding-top: 56.25%; /* 16:9 aspect ratio */
+            margin-bottom: 20px;
             background-color: #000;
             border-radius: 10px;
-            overflow: hidden;
-            border: 5px solid #87ceeb;
+            border: 5px solid #87ceeb; /* Sky blue border */
+            overflow: hidden; /* Ensures rounded corners and border visibility */
         }
+
         #videoPlayer {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            border-radius: 10px;
         }
+
+        .touch-blocker {
+            position: absolute;
+            z-index: 10; /* Ensures it's on top of the player */
+            background-color: rgba(0, 0, 0, 0); /* Transparent background to cover the area */
+        }
+
+        .touch-blocker-top {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%; /* Covers top half of the player */
+        }
+
+        .touch-blocker-right {
+            top: 50%; /* Starts from the middle of the player */
+            right: 0;
+            width: 50%; /* Covers right half of the player */
+            height: 50%; /* Covers bottom half of the player */
+        }
+
         .controls {
-            margin-top: 20px;
+            margin: 20px 0;
             display: flex;
-            justify-content: center;
+            flex-wrap: wrap;
             gap: 10px;
+            align-items: center;
         }
-        .controls button {
+
+        .controls button, .controls select {
             padding: 8px 12px;
             border: none;
             border-radius: 5px;
-            background-color: #87ceeb;
-            color: #fff;
+            background-color: #87ceeb; /* Sky blue background */
+            color: #fff; /* Text color */
             cursor: pointer;
             font-size: 14px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
+
+        .controls button:hover, .controls select:hover {
+            background-color: #70b9e2; /* Slightly darker sky blue on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+
+        .controls select {
+            width: 80px;
+        }
+
+        .pdf-card {
+            display: none; /* Hidden by default */
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #87ceeb; /* Sky blue background */
+            border-radius: 10px;
+            text-align: center;
+            color: #000; /* Black text color */
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 80%; /* Adjust width to be larger */
+            max-width: 600px; /* Maximum width */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+        }
+
+        .pdf-card:hover {
+            background-color: #70b9e2; /* Slightly darker sky blue on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+
+        .class-list {
+            width: 100%;
+            max-height: 300px; /* Increased height */
+            overflow-y: auto;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #fafafa;
+        }
+
+        .class-list h3 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .class-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #87ceeb; /* Sky blue background */
+            border-radius: 5px;
+            cursor: pointer;
+            color: #000; /* Black text color */
+            font-weight: bold; /* Bold text */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .class-item:hover {
+            background-color: #70b9e2; /* Slightly darker sky blue on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+
+        /* Hide content by default */
+        #content {
+            display: none;
+        }
+
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .login-container input {
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-container button {
+            padding: 10px;
+            background-color: #87ceeb;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
     </style>
 </head>
 <body>
-
-<div class="container" id="loginSection">
-    <h2>Login</h2>
-    <input type="text" id="usernameInput" class="input-field" placeholder="Username">
-    <input type="password" id="passwordInput" class="input-field" placeholder="Password">
-    <button class="login-btn" onclick="validateLogin()">Login</button>
-    <p id="errorMessage"></p>
-</div>
-
-<div id="protectedContent">
-    <h2>Protected Content</h2>
-    <p>You have successfully logged in! Below is the video player:</p>
-
-    <div class="video-container">
-        <iframe id="videoPlayer"
-                src="https://www.youtube.com/embed/?enablejsapi=1"
-                frameborder="0"
-                allowfullscreen>
-        </iframe>
+    <!-- Login Section -->
+    <div class="login-container" id="loginSection">
+        <h2>পাসওয়ার্ড প্রবেশ করান</h2>
+        <input type="text" id="usernameInput" placeholder="ইউজার নাম লিখুন">
+        <input type="password" id="passwordInput" placeholder="পাসওয়ার্ড লিখুন">
+        <button onclick="checkPassword()">লগইন করুন</button>
+        <div class="error-message" id="errorMessage"></div>
     </div>
 
-    <div class="controls">
-        <button onclick="playVideo()">Play</button>
-        <button onclick="pauseVideo()">Pause</button>
-        <button onclick="seek(-5)">Rewind 5s</button>
-        <button onclick="seek(5)">Forward 5s</button>
+    <!-- Main Content Section -->
+    <div id="content">
+        <div class="container">
+            <!-- Video Player Section -->
+            <div class="video-container">
+                <iframe id="videoPlayer" 
+                        src="https://www.youtube.com/embed/?enablejsapi=1" 
+                        frameborder="0" 
+                        allowfullscreen>
+                </iframe>
+                <!-- Touch blockers -->
+                <div class="touch-blocker touch-blocker-top"></div>
+                <div class="touch-blocker touch-blocker-right"></div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button onclick="playVideo()">Play</button>
+                <button onclick="pauseVideo()">Pause</button>
+                <button onclick="seek(-5)">Rewind 5s</button>
+                <button onclick="seek(5)">Forward 5s</button>
+
+                <div class="speed-control">
+                    <select id="speed" onchange="changeSpeed(this.value)">
+                        <option value="0.25">0.25x</option>
+                        <option value="0.5">0.5x</option>
+                        <option value="1" selected>1x</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="2">2x</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- PDF Card -->
+            <div class="pdf-card" id="pdfCard" onclick="window.open(pdfLink, '_blank')">
+                <span id="pdfText">ক্লাস নোট</span>
+            </div>
+
+            <!-- Scrollable Class List Section -->
+            <div class="class-list">
+                <h3>যে ক্লাসটি করতে চান তার উপর ক্লিক করুন</h3>
+                <p align='center'><b> ক্লাস প্লে না হলে বামে ক্লিক করুন</b></p>
+                <div id="classList">
+                    <!-- Dynamic class items -->
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<script src="password.js"></script>
-<script>
-    var player;
+    <script src="passwords.js"></script>
+    <script>
+        const videoPlayer = document.getElementById('videoPlayer');
+        const classListContainer = document.getElementById('classList');
+        const pdfCard = document.getElementById('pdfCard');
+        const pdfLink = 'https://example.com/class_note.pdf';
 
-    function validateLogin() {
-        const username = document.getElementById('usernameInput').value;
-        const password = document.getElementById('passwordInput').value;
+        const classData = [
+            { className: 'Class 1', videoId: 'oNXbKO83Kfg', pdfText: 'ক্লাস ১ নোট' },
+            { className: 'Class 2', videoId: 'CC_yWsTVt_w', pdfText: 'ক্লাস ২ নোট' },
+            { className: 'Class 3', videoId: 'kQJ7pbyJHXQ', pdfText: 'ক্লাস ৩ নোট' },
+        ];
 
-        // Check if the entered username and password match any in validUsers
-        if (validUsers[username] === password) {
-            document.getElementById('loginSection').style.display = 'none'; // Hide login section
-            document.getElementById('protectedContent').style.display = 'block'; // Show protected content
-            loadYouTubePlayer(); // Load the YouTube player after successful login
-        } else {
-            document.getElementById('errorMessage').innerText = 'ভুল ইউজার নাম বা পাসওয়ার্ড';
+        function createClassItems() {
+            classData.forEach(classItem => {
+                const div = document.createElement('div');
+                div.classList.add('class-item');
+                div.innerText = classItem.className;
+                div.onclick = function () {
+                    loadClassVideo(classItem.videoId, classItem.pdfText);
+                };
+                classListContainer.appendChild(div);
+            });
         }
-    }
 
-    function loadYouTubePlayer() {
-        player = new YT.Player('videoPlayer', {
-            events: {
-                'onReady': onPlayerReady
+        function loadClassVideo(videoId, pdfText) {
+            videoPlayer.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+            pdfCard.style.display = 'block';
+            document.getElementById('pdfText').innerText = pdfText;
+        }
+
+        function playVideo() {
+            videoPlayer.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        }
+
+        function pauseVideo() {
+            videoPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        }
+
+        function seek(seconds) {
+            videoPlayer.contentWindow.postMessage('{"event":"command","func":"seekBy","args":[' + seconds + ']}', '*');
+        }
+
+        function changeSpeed(speed) {
+            videoPlayer.contentWindow.postMessage('{"event":"command","func":"setPlaybackRate","args":[' + speed + ']}', '*');
+        }
+
+        function checkPassword() {
+            const username = document.getElementById('usernameInput').value;
+            const password = document.getElementById('passwordInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (validUsers[username] && validUsers[username] === password) {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+            } else {
+                errorMessage.innerText = 'ইউজারনেম বা পাসওয়ার্ড ভুল হয়েছে।';
             }
-        });
-    }
-
-    function onPlayerReady(event) {
-        console.log("Player is ready.");
-    }
-
-    function playVideo() {
-        if (player) {
-            player.playVideo();
         }
-    }
 
-    function pauseVideo() {
-        if (player) {
-            player.pauseVideo();
-        }
-    }
-
-    function seek(seconds) {
-        if (player) {
-            var currentTime = player.getCurrentTime();
-            player.seekTo(currentTime + seconds);
-        }
-    }
-
-    // Load the YouTube API
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-</script>
-
+        createClassItems();
+    </script>
 </body>
 </html>
