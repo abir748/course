@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Video Player</title>
+    <title>লগইন ও ভিডিও প্লেয়ার</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&display=swap">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #e0f7fa;
             margin: 0;
             padding: 0;
             display: flex;
@@ -17,89 +18,139 @@
             overflow: hidden;
         }
         .login-container, .main-container {
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: absolute;
-            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 350px;
             max-width: 100%;
+            text-align: center;
         }
         .login-container {
-            display: none;
+            display: block; /* Display login container initially */
         }
         .main-container {
-            display: none;
+            display: none; /* Hide main container initially */
+        }
+        .login-container h2, .main-container h2 {
+            color: #00796b;
+            margin-bottom: 20px;
+            font-weight: 700;
         }
         .login-container input, .main-container input, .main-container button {
-            width: 100%;
-            padding: 10px;
+            width: calc(100% - 20px);
+            padding: 12px;
             margin: 10px 0;
             border-radius: 5px;
-            border: 1px solid #ccc;
+            border: 1px solid #b2dfdb;
+            font-size: 16px;
+        }
+        .login-container input, .main-container input {
+            background-color: #ffffff;
         }
         .login-container button, .main-container button {
-            background-color: #87ceeb;
+            background-color: #00796b;
             border: none;
             color: white;
+            font-size: 16px;
             cursor: pointer;
             font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .login-container button:hover, .main-container button:hover {
+            background-color: #004d40;
+            transform: scale(1.05);
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .video-container iframe {
+            width: 100%;
+            height: 340px;
+            border: none;
+            border-radius: 10px;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .controls button {
+            background-color: #00796b;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 0 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .controls button:hover {
+            background-color: #004d40;
+            transform: scale(1.05);
+        }
+        .speed-control select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #b2dfdb;
+            font-size: 16px;
+            background-color: #ffffff;
+            transition: background-color 0.3s;
+        }
+        .speed-control select:hover {
+            background-color: #f1f8f6;
         }
         .pdf-card {
             display: none;
             cursor: pointer;
-            padding: 10px;
-            background-color: #87ceeb;
+            padding: 15px;
+            background-color: #00796b;
             color: white;
             border-radius: 5px;
             text-align: center;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .pdf-card:hover {
+            background-color: #004d40;
+            transform: scale(1.05);
         }
         .class-list {
             margin-top: 20px;
         }
         .class-item {
             cursor: pointer;
-            padding: 10px;
+            padding: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-bottom: 10px;
-            background-color: #f9f9f9;
+            background-color: #ffffff;
+            transition: background-color 0.3s, box-shadow 0.3s;
         }
-        .touch-blocker {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-        .touch-blocker-top {
-            height: 50px;
-        }
-        .touch-blocker-right {
-            width: 50px;
-            right: 0;
+        .class-item:hover {
+            background-color: #f1f8f6;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
     <div class="login-container" id="loginContainer">
-        <h2>Login</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="login()">Login</button>
-        <p id="error-message" style="color: red; display: none;">Invalid username or password</p>
+        <h2>লগইন করুন</h2>
+        <input type="text" id="username" placeholder="ইউজারনেম">
+        <input type="password" id="password" placeholder="পাসওয়ার্ড">
+        <button onclick="login()">লগইন</button>
+        <p id="error-message" style="color: red; display: none;">অবৈধ ইউজারনেম বা পাসওয়ার্ড</p>
     </div>
 
     <div class="main-container" id="mainContainer">
-        <!-- Video Player Section -->
         <div class="video-container">
             <iframe id="videoPlayer" src="https://www.youtube.com/embed/?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
-            <div class="touch-blocker touch-blocker-top"></div>
-            <div class="touch-blocker touch-blocker-right"></div>
         </div>
 
-        <!-- Controls -->
         <div class="controls">
             <button onclick="playVideo()">Play</button>
             <button onclick="pauseVideo()">Pause</button>
@@ -116,12 +167,10 @@
             </div>
         </div>
 
-        <!-- PDF Card -->
         <div class="pdf-card" id="pdfCard" onclick="window.open(pdfLink, '_blank')">
             <span id="pdfText">ক্লাস নোট</span>
         </div>
 
-        <!-- Scrollable Class List Section -->
         <div class="class-list">
             <h3>যে ক্লাসটি করতে চান তার উপর ক্লিক করুন</h3>
             <p align='center'><b> ক্লাস প্লে না হলে বামে ক্লিক করুন</b></p><br>
@@ -160,7 +209,7 @@
         }
 
         var player;
-        var pdfLink; // Variable to hold the current PDF link
+        var pdfLink;
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('videoPlayer', {
@@ -211,19 +260,13 @@
             }
         }
 
-        function playSpecificVideo(videoId, pdfLinkParam) {
-            if (player) {
-                player.loadVideoById(videoId);
-                player.playVideo(); // Start playing immediately after loading
-                console.log("Video loaded and played: " + videoId);
-                document.getElementById('pdfCard').style.display = 'block'; // Show the card
-                pdfLink = pdfLinkParam; // Update PDF link
-            } else {
-                console.log("Player not initialized.");
-            }
+        function playSpecificVideo(videoId, pdf) {
+            const player = document.getElementById('videoPlayer');
+            player.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+            pdfLink = pdf;
+            document.getElementById('pdfCard').style.display = 'block';
         }
 
-        // Load the IFrame Player API code asynchronously
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
